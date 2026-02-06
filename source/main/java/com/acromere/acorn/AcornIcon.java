@@ -1,7 +1,7 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.zerra.color.Colors;
-import com.avereon.zerra.image.RenderedIcon;
+import com.acromere.zerra.color.Colors;
+import com.acromere.zerra.image.RenderedIcon;
 import javafx.scene.paint.Color;
 
 public class AcornIcon extends RenderedIcon {

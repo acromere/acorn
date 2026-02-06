@@ -1,8 +1,8 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.xenon.Xenon;
-import com.avereon.xenon.resource.Resource;
-import com.avereon.xenon.scheme.ProductScheme;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.scheme.ProductScheme;
 
 public class AcornScheme extends ProductScheme {
 

@@ -1,8 +1,8 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.acorncli.AcornMonitor;
-import com.avereon.acorncli.AcornCounter;
-import com.avereon.xenon.task.Task;
+import com.acromere.acorncli.AcornMonitor;
+import com.acromere.acorncli.AcornCounter;
+import com.acromere.xenon.task.Task;
 
 public class AcornTask extends Task<Long> {
 

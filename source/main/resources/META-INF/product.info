@@ -4,7 +4,7 @@ version: ${project.version}
 timestamp: ${project.timestamp}
 
 name: ${project.name}
-icon: "https://avereon.com/download/latest/${project.artifactId}/product/icon"
+icon: "https://acromere.com/download/latest/${project.artifactId}/product/icon"
 provider: ${project.organization.name}
 inception: ${project.inceptionYear}
 

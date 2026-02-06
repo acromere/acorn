@@ -1,4 +1,4 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;

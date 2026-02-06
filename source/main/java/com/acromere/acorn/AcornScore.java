@@ -1,6 +1,6 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.util.TextUtil;
+import com.acromere.util.TextUtil;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;

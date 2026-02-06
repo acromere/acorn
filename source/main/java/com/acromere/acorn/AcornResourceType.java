@@ -1,13 +1,13 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.product.Rb;
-import com.avereon.xenon.RbKey;
-import com.avereon.xenon.Xenon;
-import com.avereon.xenon.XenonProgramProduct;
-import com.avereon.xenon.resource.Resource;
-import com.avereon.xenon.resource.ResourceType;
-import com.avereon.xenon.resource.Codec;
-import com.avereon.xenon.resource.PlaceholderCodec;
+import com.acromere.product.Rb;
+import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Xenon;
+import com.acromere.xenon.XenonProgramProduct;
+import com.acromere.xenon.resource.Resource;
+import com.acromere.xenon.resource.ResourceType;
+import com.acromere.xenon.resource.Codec;
+import com.acromere.xenon.resource.PlaceholderCodec;
 
 public class AcornResourceType extends ResourceType {
 

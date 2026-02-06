@@ -1,7 +1,7 @@
-package com.avereon.acorn;
+package com.acromere.acorn;
 
-import com.avereon.xenon.Module;
-import com.avereon.xenon.ToolRegistration;
+import com.acromere.xenon.Module;
+import com.acromere.xenon.ToolRegistration;
 import lombok.CustomLog;
 
 @CustomLog

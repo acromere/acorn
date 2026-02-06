@@ -1,4 +1,4 @@
-[build-status]: https://github.com/avereon/acorn/workflows/CI/badge.svg "Build status"
+[build-status]: https://github.com/acromere/acorn/workflows/CI/badge.svg "Build status"
 
 # Acorn ![alt text][build-status]
 

@@ -6,12 +6,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.avereon.pom</groupId>
+		<groupId>com.acromere.pom</groupId>
 		<artifactId>mod</artifactId>
-		<version>3.7-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.avereon</groupId>
+	<groupId>com.acromere</groupId>
 	<artifactId>acorn</artifactId>
 	<version>1.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -32,15 +32,15 @@
 
 	<repositories>
 		<repository>
-			<id>avn</id>
-			<url>https://repo.avereon.com/avn</url>
+			<id>acm</id>
+			<url>https://repo.acromere.com/acm</url>
 		</repository>
 	</repositories>
 
 	<pluginRepositories>
 		<pluginRepository>
-			<id>avn</id>
-			<url>https://repo.avereon.com/avn</url>
+			<id>acm</id>
+			<url>https://repo.acromere.com/acm</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -52,7 +52,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.avereon</groupId>
+			<groupId>com.acromere</groupId>
 			<artifactId>acorn-cli</artifactId>
 			<version>1.2.4-SNAPSHOT</version>
 			<scope>compile</scope>
@@ -78,7 +78,7 @@
 				<configuration>
 					<!-- The argLine and systemPropertyVariables should match the failsafe configuration below -->
 					<argLine>
-						--add-opens=com.avereon.acorn/com.avereon.acorn=ALL-UNNAMED
+						--add-opens=com.acromere.acorn/com.acromere.acorn=ALL-UNNAMED
 					</argLine>
 				</configuration>
 			</plugin>
@@ -92,7 +92,7 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>com.avereon</groupId>
+						<groupId>com.acromere</groupId>
 						<artifactId>cameo</artifactId>
 						<version>${cameo.version}</version>
 						<executions>
@@ -105,7 +105,7 @@
 								<configuration>
 									<images>
 										<image>
-											<class>com.avereon.acorn.AcornIcon</class>
+											<class>com.acromere.acorn.AcornIcon</class>
 											<target>${images-folder}/product.png</target>
 											<theme>light</theme>
 										</image>
