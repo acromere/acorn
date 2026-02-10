@@ -1,4 +1,4 @@
-name: Acromere Acorn CI
+name: Acorn CI
 
 on:
   push:
