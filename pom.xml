@@ -109,6 +109,16 @@
 											<target>${images-folder}/product.png</target>
 											<theme>light</theme>
 										</image>
+										<image>
+											<class>com.acromere.acorn.AcornIcon</class>
+											<target>${images-folder}/product-light.png</target>
+											<theme>light</theme>
+										</image>
+										<image>
+											<class>com.acromere.acorn.AcornIcon</class>
+											<target>${images-folder}/product-dark.png</target>
+											<theme>dark</theme>
+										</image>
 									</images>
 								</configuration>
 							</execution>
