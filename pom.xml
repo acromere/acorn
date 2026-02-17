@@ -107,7 +107,6 @@
 										<image>
 											<class>com.acromere.acorn.AcornIcon</class>
 											<target>${images-folder}/product.png</target>
-											<theme>light</theme>
 										</image>
 										<image>
 											<class>com.acromere.acorn.AcornIcon</class>
