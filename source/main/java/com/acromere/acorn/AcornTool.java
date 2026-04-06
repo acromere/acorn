@@ -2,10 +2,11 @@ package com.acromere.acorn;
 
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.ToolException;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import lombok.CustomLog;
 
@@ -21,7 +22,9 @@ public class AcornTool extends ProgramTool {
 
 	private SystemCpuLoadCheck cpuLoadCheck;
 
-	private final ScoreGraph scoreGraph;
+	private final ScoreGraph allScoreGraph;
+
+	private final ScoreGraph oneScoreGraph;
 
 	public AcornTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
@@ -33,18 +36,25 @@ public class AcornTool extends ProgramTool {
 
 		int threads = Runtime.getRuntime().availableProcessors();
 
-		AcornTest allThreadsTest = new AcornTest( this, threads + " Threads", threads );
-		AcornTest oneThreadTest = new AcornTest( this, "1 Thread", 1 );
-		VBox testBox = new VBox( allThreadsTest, oneThreadTest );
+		AcornTest allThreadsTest = new AcornTest( this, "", threads );
+		VBox testBox = new VBox( allThreadsTest );
 		testBox.setPrefWidth( 700 );
 		testBox.setMinWidth( 400 );
 
-		scoreGraph = new ScoreGraph();
-		scoreGraph.setPrefWidth( 300 );
-		scoreGraph.setMinWidth( 300 );
+		allScoreGraph = new ScoreGraph(false);
+		allScoreGraph.setPrefWidth( 300 );
+		allScoreGraph.setMinWidth( 300 );
 
-		HBox parts = new HBox( testBox, scoreGraph );
-		parts.setFillHeight( true );
+		oneScoreGraph = new ScoreGraph(true);
+		oneScoreGraph.setPrefWidth( 300 );
+		oneScoreGraph.setMinWidth( 300 );
+
+		HBox graphs = new HBox( allScoreGraph, oneScoreGraph );
+		HBox.setHgrow( allScoreGraph, Priority.ALWAYS );
+		HBox.setHgrow( oneScoreGraph, Priority.ALWAYS );
+
+		VBox parts = new VBox( testBox, graphs );
+		VBox.setVgrow( graphs, Priority.ALWAYS );
 
 		getChildren().add( parts );
 	}
@@ -68,8 +78,12 @@ public class AcornTool extends ProgramTool {
 		cpuLoadCheck.removeListener( cpuLoadListener );
 	}
 
-	ScoreGraph getScoreGraph() {
-		return scoreGraph;
+	ScoreGraph getAllScoreGraph() {
+		return allScoreGraph;
+	}
+
+	ScoreGraph getOneScoreGraph() {
+		return oneScoreGraph;
 	}
 
 }

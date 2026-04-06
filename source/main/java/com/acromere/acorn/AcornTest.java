@@ -1,8 +1,8 @@
 package com.acromere.acorn;
 
 import com.acromere.product.Rb;
-import com.acromere.xenon.Xenon;
 import com.acromere.xenon.RbKey;
+import com.acromere.xenon.Xenon;
 import com.acromere.xenon.task.TaskEvent;
 import com.acromere.zerra.javafx.Fx;
 import javafx.scene.Node;
@@ -13,6 +13,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import lombok.CustomLog;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @CustomLog
@@ -28,11 +29,13 @@ public class AcornTest extends HBox {
 
 	private final ProgressIndicator progress;
 
-	private final Label result;
+	//private final Label result;
 
 	private final Label message;
 
-	private AcornScore score;
+	private AcornScore allScore;
+
+	private AcornScore oneScore;
 
 	public AcornTest( AcornTool tool, String title, int threads ) {
 		this.tool = tool;
@@ -45,8 +48,8 @@ public class AcornTest extends HBox {
 
 		Label titleLabel = new Label( title );
 		titleLabel.getStyleClass().addAll( "icon" );
-		result = new Label( "----" );
-		result.getStyleClass().addAll( "result" );
+//		result = new Label( "----" );
+//		result.getStyleClass().addAll( "result" );
 		button = new Button();
 		//button.getStyleClass().addAll( "button" );
 		progress = new ProgressBar( 0 );
@@ -57,22 +60,25 @@ public class AcornTest extends HBox {
 		button.setOnAction( e -> toggle() );
 		updateButtonState();
 
-		getChildren().addAll( button, titleLabel, progress, result );
+		getChildren().addAll( button, titleLabel, progress );
 	}
 
 	private Xenon getProgram() {
 		return tool.getProgram();
 	}
 
-	private AcornTask checker;
+	private AcornTask allChecker;
+
+	private AcornTask oneChecker;
 
 	private boolean isRunning() {
-		return !(checker == null || checker.isDone());
+		return !(allChecker == null || allChecker.isDone()) & !(oneChecker == null || oneChecker.isDone());
 	}
 
 	private void toggle() {
 		if( isRunning() ) {
-			checker.cancel( true );
+			if( allChecker != null ) allChecker.cancel( true );
+			if( oneChecker != null ) oneChecker.cancel( true );
 		} else {
 			start();
 		}
@@ -90,30 +96,54 @@ public class AcornTest extends HBox {
 	}
 
 	private void start() {
-		checker = new AcornTask( threads );
-		checker.register( TaskEvent.SUBMITTED, e -> {
+		allChecker = new AcornTask( threads );
+		oneChecker = new AcornTask( 1 );
+
+		allChecker.register( TaskEvent.SUBMITTED, e -> {
 			Fx.run( () -> progress.setProgress( 0 ) );
 			updateButtonState();
 		} );
-		checker.register( TaskEvent.PROGRESS, e -> Fx.run( () -> progress.setProgress( e.getTask().getPercent() ) ) );
-		checker.register( TaskEvent.SUCCESS, e -> Fx.run( () -> {
+
+		allChecker.register( TaskEvent.PROGRESS, e -> Fx.run( () -> progress.setProgress( 0.5 * e.getTask().getPercent() ) ) );
+		oneChecker.register( TaskEvent.PROGRESS, e -> Fx.run( () -> progress.setProgress( 0.5 + 0.5 * e.getTask().getPercent() ) ) );
+
+		allChecker.register( TaskEvent.SUCCESS, e -> Fx.run( () -> {
 			try {
-				setScore( checker.get() );
+				setAllScore( allChecker.get() );
 			} catch( InterruptedException | ExecutionException exception ) {
 				log.atWarning().withCause( exception ).log( "Error computing acorn count" );
 			}
 		} ) );
-		checker.register( TaskEvent.CANCEL, e -> Fx.run( () -> progress.setProgress( 0 ) ) );
-		checker.register( TaskEvent.FINISH, e -> updateButtonState() );
+		oneChecker.register( TaskEvent.SUCCESS, e -> Fx.run( () -> {
+			try {
+				setOneScore( oneChecker.get() );
+			} catch( InterruptedException | ExecutionException exception ) {
+				log.atWarning().withCause( exception ).log( "Error computing acorn count" );
+			}
+		} ) );
 
-		getProgram().getTaskManager().submit( checker );
+		allChecker.register( TaskEvent.CANCEL, e -> Fx.run( () -> progress.setProgress( 0 ) ) );
+		oneChecker.register( TaskEvent.CANCEL, e -> Fx.run( () -> progress.setProgress( 0 ) ) );
+
+		oneChecker.register( TaskEvent.FINISH, e -> updateButtonState() );
+
+		CompletableFuture<Void> task = CompletableFuture.runAsync( allChecker, getProgram().getTaskManager().getExecutor() );
+		task.thenRunAsync( oneChecker, getProgram().getTaskManager().getExecutor() );
 	}
 
-	private void setScore( long score ) {
+	private void setAllScore( long score ) {
 		Fx.run( () -> {
-			tool.getScoreGraph().removeScore( this.score );
-			result.setText( String.valueOf( score ) );
-			tool.getScoreGraph().addScore( this.score = new AcornScore( true, score, title ) );
+			tool.getAllScoreGraph().removeScore( this.allScore );
+			//result.setText( String.valueOf( score ) );
+			tool.getAllScoreGraph().addScore( this.allScore = new AcornScore( true, score, threads, "This computer" ) );
+		} );
+	}
+
+	private void setOneScore( long score ) {
+		Fx.run( () -> {
+			tool.getOneScoreGraph().removeScore( this.oneScore );
+			//result.setText( String.valueOf( score ) );
+			tool.getOneScoreGraph().addScore( this.oneScore = new AcornScore( true, score, 1, "This computer" ) );
 		} );
 	}
 

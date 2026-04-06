@@ -20,8 +20,12 @@ public class ScoreGraph extends Pane {
 	private final Set<Node> scoreNodes;
 
 	private final Line divider;
+	
+	private final boolean single;
 
-	public ScoreGraph() {
+	public ScoreGraph(boolean single) {
+		this.single = single;
+
 		scoreNodes = new HashSet<>();
 
 		scores = FXCollections.observableSet( new HashSet<>() );
@@ -30,13 +34,13 @@ public class ScoreGraph extends Pane {
 		divider = new Line();
 		divider.getStyleClass().add( "divider" );
 
-		AcornScore top = addScore( new AcornScore( true, TOP_LIMIT, "" ) );
-		AcornScore base = addScore( new AcornScore( true, 0, "" ) );
+		AcornScore top = addScore( new AcornScore( true, TOP_LIMIT, 0, "" ) );
+		AcornScore base = addScore( new AcornScore( true, 0, 0, "" ) );
 
 		int exp = 1;
 		long value = (long)Math.pow(10, exp);
 		while( value < TOP_LIMIT ) {
-			addScore( new AcornScore( true, value, "" ) );
+			addScore( new AcornScore( true, value, 0, "" ) );
 			value = (long)Math.pow(10, ++exp);
 		}
 
@@ -49,17 +53,17 @@ public class ScoreGraph extends Pane {
 
 		getChildren().addAll( divider );
 
-		addScore( new AcornScore( false, 4800, "AMD Ryzen 9 5950X - 32 Threads" ) );
-		addScore( new AcornScore( false, 340, "AMD Ryzen 9 5950X - 1 Thread" ) );
-		addScore( new AcornScore( false, 712, "Steam Deck - 8 Threads" ) );
-		//addScore( new AcornScore( false, 672, "Intel N97 - 4 Threads" ) );
-		//addScore( new AcornScore( false, 220, "Intel N97 - 1 Threads" ) );
-		addScore( new AcornScore( false, 196, "Steam Deck - 1 Thread" ) );
-		addScore( new AcornScore( false, 107, "Intel Core i3-2120 - 1 Thread" ) );
-		addScore( new AcornScore( false, 68, "MintBox Mini - 4 Threads" ) );
-		addScore( new AcornScore( false, 27, "MintBox Mini - 1 Thread" ) );
-		addScore( new AcornScore( false, 60, "Raspberry PI 3 - 4 Threads" ) );
-		addScore( new AcornScore( false, 17, "Raspberry PI 3 - 1 Thread" ) );
+		addScore( new AcornScore( false, 4800, 32, "AMD Ryzen 9 5950X" ) );
+		addScore( new AcornScore( false, 340, 1, "AMD Ryzen 9 5950X" ) );
+		addScore( new AcornScore( false, 712, 8, "Steam Deck" ) );
+		//addScore( new AcornScore( false, 672, 4, "Intel N97" ) );
+		//addScore( new AcornScore( false, 220, 1, "Intel N97" ) );
+		addScore( new AcornScore( false, 196, 1, "Steam Deck" ) );
+		addScore( new AcornScore( false, 107, 1, "Intel Core i3-2120" ) );
+		//addScore( new AcornScore( false, 68, 4, "MintBox Mini" ) );
+		//addScore( new AcornScore( false, 27, 1, "MintBox Mini" ) );
+		addScore( new AcornScore( false, 60, 4, "Raspberry PI 3" ) );
+		addScore( new AcornScore( false, 17, 1, "Raspberry PI 3" ) );
 	}
 
 	ObservableSet<AcornScore> scoresProperty() {
@@ -68,6 +72,8 @@ public class ScoreGraph extends Pane {
 
 	public AcornScore addScore( AcornScore score ) {
 		if( score == null ) return null;
+		if( single && score.getThreads() > 1 ) return null;
+		if( !single && score.getThreads() ==1) return null;
 		scoresProperty().add( score );
 		return score;
 	}
@@ -101,6 +107,7 @@ public class ScoreGraph extends Pane {
 		// Add new ones
 		scoreNodes.addAll( change.getSet() );
 		getChildren().addAll( scoreNodes );
+		updateBounds();
 	}
 
 	private double logScore( long score ) {
