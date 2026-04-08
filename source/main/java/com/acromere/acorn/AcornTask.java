@@ -1,7 +1,7 @@
 package com.acromere.acorn;
 
-import com.acromere.acorncli.AcornMonitor;
 import com.acromere.acorncli.AcornCounter;
+import com.acromere.acorncli.AcornMonitor;
 import com.acromere.xenon.task.Task;
 
 public class AcornTask extends Task<Long> {
@@ -15,7 +15,7 @@ public class AcornTask extends Task<Long> {
 	}
 
 	@Override
-	public Long call() throws Exception {
+	public Long call() {
 		counter.start();
 		counter.join();
 		return counter.getScore();

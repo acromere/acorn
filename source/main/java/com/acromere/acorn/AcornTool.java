@@ -44,11 +44,11 @@ public class AcornTool extends ProgramTool {
 		testBox.setPrefWidth( 700 );
 		testBox.setMinWidth( 400 );
 
-		allScoreGraph = new ScoreGraph(false);
+		allScoreGraph = new ScoreGraph( false );
 		allScoreGraph.setPrefWidth( 300 );
 		allScoreGraph.setMinWidth( 300 );
 
-		oneScoreGraph = new ScoreGraph(true);
+		oneScoreGraph = new ScoreGraph( true );
 		oneScoreGraph.setPrefWidth( 300 );
 		oneScoreGraph.setMinWidth( 300 );
 
@@ -64,15 +64,15 @@ public class AcornTool extends ProgramTool {
 	}
 
 	@Override
-	public void activate() {
-		this.test.getButton().requestFocus();
-	}
-
-	@Override
-	protected void allocate() throws ToolException {
+	protected void allocate() {
 		cpuLoadCheck = new SystemCpuLoadCheck();
 		cpuLoadCheck.addListener( cpuLoadListener );
 		timer.schedule( cpuLoadCheck, 0, 1000 );
+	}
+
+	@Override
+	public void activate() {
+		this.test.getButton().requestFocus();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class AcornTool extends ProgramTool {
 	}
 
 	@Override
-	protected void deallocate() throws ToolException {
+	protected void deallocate() {
 		cpuLoadCheck.cancel();
 		cpuLoadCheck.removeListener( cpuLoadListener );
 	}

@@ -16,10 +16,6 @@ public class AcornScore extends Label {
 	@Getter
 	private final int threads;
 
-	public AcornScore( boolean left, long score, int threads ) {
-		this( left, score, threads, null );
-	}
-
 	public AcornScore( boolean left, long score, int threads, String label ) {
 		this( left, score, threads, label, null );
 	}

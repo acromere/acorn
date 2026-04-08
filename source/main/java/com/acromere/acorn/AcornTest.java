@@ -50,17 +50,17 @@ public class AcornTest extends HBox {
 
 		Label titleLabel = new Label( title );
 		titleLabel.getStyleClass().addAll( "icon" );
-//		result = new Label( "----" );
-//		result.getStyleClass().addAll( "result" );
+		//		result = new Label( "----" );
+		//		result.getStyleClass().addAll( "result" );
 		button = new Button();
-		//button.getStyleClass().addAll( "button" );
 		progress = new ProgressBar( 0 );
 		progress.getStyleClass().addAll( "progress" );
 		message = new Label( waitingText );
 		message.getStyleClass().addAll( "message" );
 
-		button.setOnAction( e -> toggle() );
 		updateButtonState();
+
+		button.setOnAction( _ -> toggle() );
 
 		getChildren().addAll( button, titleLabel, progress );
 	}
@@ -101,33 +101,39 @@ public class AcornTest extends HBox {
 		allChecker = new AcornTask( threads );
 		oneChecker = new AcornTask( 1 );
 
-		allChecker.register( TaskEvent.SUBMITTED, e -> {
-			Fx.run( () -> progress.setProgress( 0 ) );
-			updateButtonState();
-		} );
+		allChecker.register(
+			TaskEvent.SUBMITTED, e -> {
+				Fx.run( () -> progress.setProgress( 0 ) );
+				updateButtonState();
+			}
+		);
 
 		allChecker.register( TaskEvent.PROGRESS, e -> Fx.run( () -> progress.setProgress( 0.5 * e.getTask().getPercent() ) ) );
 		oneChecker.register( TaskEvent.PROGRESS, e -> Fx.run( () -> progress.setProgress( 0.5 + 0.5 * e.getTask().getPercent() ) ) );
 
-		allChecker.register( TaskEvent.SUCCESS, e -> Fx.run( () -> {
-			try {
-				setAllScore( allChecker.get() );
-			} catch( InterruptedException | ExecutionException exception ) {
-				log.atWarning().withCause( exception ).log( "Error computing acorn count" );
-			}
-		} ) );
-		oneChecker.register( TaskEvent.SUCCESS, e -> Fx.run( () -> {
-			try {
-				setOneScore( oneChecker.get() );
-			} catch( InterruptedException | ExecutionException exception ) {
-				log.atWarning().withCause( exception ).log( "Error computing acorn count" );
-			}
-		} ) );
+		allChecker.register(
+			TaskEvent.SUCCESS, _ -> Fx.run( () -> {
+				try {
+					setAllScore( allChecker.get() );
+				} catch( InterruptedException | ExecutionException exception ) {
+					log.atWarning().withCause( exception ).log( "Error computing acorn count" );
+				}
+			} )
+		);
+		oneChecker.register(
+			TaskEvent.SUCCESS, _ -> Fx.run( () -> {
+				try {
+					setOneScore( oneChecker.get() );
+				} catch( InterruptedException | ExecutionException exception ) {
+					log.atWarning().withCause( exception ).log( "Error computing acorn count" );
+				}
+			} )
+		);
 
-		allChecker.register( TaskEvent.CANCEL, e -> Fx.run( () -> progress.setProgress( 0 ) ) );
-		oneChecker.register( TaskEvent.CANCEL, e -> Fx.run( () -> progress.setProgress( 0 ) ) );
+		allChecker.register( TaskEvent.CANCEL, _ -> Fx.run( () -> progress.setProgress( 0 ) ) );
+		oneChecker.register( TaskEvent.CANCEL, _ -> Fx.run( () -> progress.setProgress( 0 ) ) );
 
-		oneChecker.register( TaskEvent.FINISH, e -> updateButtonState() );
+		oneChecker.register( TaskEvent.FINISH, _ -> updateButtonState() );
 
 		CompletableFuture<Void> task = CompletableFuture.runAsync( allChecker, getProgram().getTaskManager().getExecutor() );
 		task.thenRunAsync( oneChecker, getProgram().getTaskManager().getExecutor() );

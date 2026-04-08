@@ -20,10 +20,10 @@ public class ScoreGraph extends Pane {
 	private final Set<Node> scoreNodes;
 
 	private final Line divider;
-	
+
 	private final boolean single;
 
-	public ScoreGraph(boolean single) {
+	public ScoreGraph( boolean single ) {
 		this.single = single;
 
 		scoreNodes = new HashSet<>();
@@ -38,10 +38,10 @@ public class ScoreGraph extends Pane {
 		AcornScore base = addScore( new AcornScore( true, 0, 0, "" ) );
 
 		int exp = 1;
-		long value = (long)Math.pow(10, exp);
+		long value = (long)Math.pow( 10, exp );
 		while( value < TOP_LIMIT ) {
 			addScore( new AcornScore( true, value, 0, "" ) );
-			value = (long)Math.pow(10, ++exp);
+			value = (long)Math.pow( 10, ++exp );
 		}
 
 		getStyleClass().add( "score-graph" );
@@ -73,7 +73,7 @@ public class ScoreGraph extends Pane {
 	public AcornScore addScore( AcornScore score ) {
 		if( score == null ) return null;
 		if( single && score.getThreads() > 1 ) return null;
-		if( !single && score.getThreads() ==1) return null;
+		if( !single && score.getThreads() == 1 ) return null;
 		scoresProperty().add( score );
 		return score;
 	}
