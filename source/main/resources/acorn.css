@@ -1,3 +1,7 @@
+.acorn-tool {
+	-fx-padding: 1em;
+}
+
 .acorn-tool .layout {
 	-fx-spacing: 0.5em;
 	-fx-alignment: center;

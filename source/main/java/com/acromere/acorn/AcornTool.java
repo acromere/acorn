@@ -22,6 +22,8 @@ public class AcornTool extends ProgramTool {
 
 	private SystemCpuLoadCheck cpuLoadCheck;
 
+	private final AcornTest test;
+
 	private final ScoreGraph allScoreGraph;
 
 	private final ScoreGraph oneScoreGraph;
@@ -29,15 +31,16 @@ public class AcornTool extends ProgramTool {
 	public AcornTool( XenonProgramProduct product, Resource resource ) {
 		super( product, resource );
 		addStylesheet( AcornMod.STYLESHEET );
-		getStyleClass().addAll( "acorn-tool" );
+		getStyleClass().addAll( "acorn-tool", "layout" );
 		setIcon( "acorn" );
 
 		cpuLoadListener = d -> log.atFine().log( "cpu=%s", d );
 
 		int threads = Runtime.getRuntime().availableProcessors();
 
-		AcornTest allThreadsTest = new AcornTest( this, "", threads );
-		VBox testBox = new VBox( allThreadsTest );
+		test = new AcornTest( this, "", threads );
+		test.getButton().setDefaultButton( true );
+		VBox testBox = new VBox( test );
 		testBox.setPrefWidth( 700 );
 		testBox.setMinWidth( 400 );
 
@@ -54,9 +57,15 @@ public class AcornTool extends ProgramTool {
 		HBox.setHgrow( oneScoreGraph, Priority.ALWAYS );
 
 		VBox parts = new VBox( testBox, graphs );
+		parts.getStyleClass().addAll( "layout" );
 		VBox.setVgrow( graphs, Priority.ALWAYS );
 
 		getChildren().add( parts );
+	}
+
+	@Override
+	public void activate() {
+		this.test.getButton().requestFocus();
 	}
 
 	@Override

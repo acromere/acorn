@@ -12,6 +12,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.HBox;
 import lombok.CustomLog;
+import lombok.Getter;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +26,7 @@ public class AcornTest extends HBox {
 
 	private final int threads;
 
+	@Getter
 	private final Button button;
 
 	private final ProgressIndicator progress;
