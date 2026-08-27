@@ -29,11 +29,11 @@ public class AcornResourceType extends ResourceType {
 	}
 
 	@Override
-	public boolean assetOpen( Xenon program, Resource resource ) {
+	public boolean resourceOpen( Xenon program, Resource resource ) {
 		resource.setUri( URI );
 		resource.setName( Rb.text( RbKey.RESOURCE, "acorn-name" ) );
 
-		// Setting the scheme when the asset is opened solves a bunch of "new" asset problems
+		// Setting the scheme when the resource is opened solves a bunch of "new" resource problems
 		resource.setScheme( program.getResourceManager().getScheme( URI.getScheme() ) );
 
 		resource.setModified( false );
