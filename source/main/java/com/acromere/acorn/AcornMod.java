@@ -9,7 +9,7 @@ public class AcornMod extends Module {
 
 	public static final String STYLESHEET = "acorn.css";
 
-	private AcornResourceType acornAssetType;
+	private AcornResourceType acornResourceType;
 
 	public AcornMod() {
 		super();
@@ -22,16 +22,16 @@ public class AcornMod extends Module {
 
 		getProgram().getResourceManager().addScheme( new AcornScheme( getProgram() ) );
 
-		registerAssetType( acornAssetType = new AcornResourceType( this ) );
+		registerResourceType( acornResourceType = new AcornResourceType( this ) );
 		ToolRegistration design2dEditorRegistration = new ToolRegistration( this, AcornTool.class );
 		design2dEditorRegistration.setName( "Acorn Counting Tool" );
-		registerTool( acornAssetType, design2dEditorRegistration );
+		registerTool( acornResourceType, design2dEditorRegistration );
 	}
 
 	@Override
 	public void shutdown() throws Exception {
-		unregisterTool( acornAssetType, AcornTool.class );
-		unregisterAssetType( acornAssetType );
+		unregisterTool( acornResourceType, AcornTool.class );
+		unregisterResourceType( acornResourceType );
 
 		getProgram().getResourceManager().removeScheme( AcornScheme.ID );
 
