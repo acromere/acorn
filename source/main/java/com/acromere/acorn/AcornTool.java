@@ -2,7 +2,7 @@ package com.acromere.acorn;
 
 import com.acromere.xenon.ProgramTool;
 import com.acromere.xenon.XenonProgramProduct;
-import com.acromere.xenon.resource.OpenAssetRequest;
+import com.acromere.xenon.resource.OpenResourceRequest;
 import com.acromere.xenon.resource.Resource;
 import com.acromere.xenon.workpane.ToolException;
 import javafx.scene.layout.HBox;
@@ -76,7 +76,7 @@ public class AcornTool extends ProgramTool {
 	}
 
 	@Override
-	protected void ready( OpenAssetRequest request ) throws ToolException {
+	protected void ready( OpenResourceRequest request ) throws ToolException {
 		super.ready( request );
 		setTitle( request.getResource().getName() );
 	}
