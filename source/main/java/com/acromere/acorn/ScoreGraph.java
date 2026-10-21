@@ -53,8 +53,8 @@ public class ScoreGraph extends Pane {
 
 		getChildren().addAll( divider );
 
-		addScore( new AcornScore( false, 4800, 32, "AMD Ryzen 9 5950X" ) );
-		addScore( new AcornScore( false, 340, 1, "AMD Ryzen 9 5950X" ) );
+		addScore( new AcornScore( false, 6000, 32, "AMD Ryzen 9 5950X" ) );
+		addScore( new AcornScore( false, 420, 1, "AMD Ryzen 9 5950X" ) );
 		addScore( new AcornScore( false, 712, 8, "Steam Deck" ) );
 		//addScore( new AcornScore( false, 672, 4, "Intel N97" ) );
 		//addScore( new AcornScore( false, 220, 1, "Intel N97" ) );
